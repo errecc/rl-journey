@@ -1,0 +1,4 @@
+database:
+  name: "rl-journey"
+  host: "localhost"
+  port: "27017"
