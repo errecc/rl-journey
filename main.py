@@ -1,6 +1,4 @@
-def main():
-    print("Hello from rl-journey!")
-
-
-if __name__ == "__main__":
-    main()
+"""
+Main class for displaying the whole performance of all different methods
+implemented
+"""
