@@ -5,7 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "abc",
     "matplotlib>=3.10.3",
     "numpy>=2.2.6",
+    "pymongo",
+    "pyyaml>=6.0.2",
     "torch>=2.7.0",
 ]
