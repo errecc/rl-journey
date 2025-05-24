@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "abc",
+    "gymnasium",
     "matplotlib>=3.10.3",
     "numpy>=2.2.6",
     "pymongo",
