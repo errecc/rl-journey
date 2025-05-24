@@ -1,17 +1,12 @@
 from utils.abstract_trainer import RLTrainer
+import gymnasium as gym
 
 
 class CrossEntropyCartpole(RLTrainer):
     def __init__(self, collection):
         super().__init__(collection)
 
-    def step(self):
-        ...
-
-    def train(self):
-        ...
-
-    def plot_performance(self):
+    def epoch(self):
         ...
 
 
