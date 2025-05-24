@@ -8,6 +8,3 @@ class CrossEntropyCartpole(RLTrainer):
 
     def epoch(self):
         ...
-
-
-carpole_trainer = CrossEntropyCartpole("cartpole-crossentropy")
