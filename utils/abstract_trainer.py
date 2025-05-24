@@ -13,9 +13,6 @@ class RLTrainer(ABC):
         self.start_time = time.time()
         self.trainer_id = str(uuid4())
 
-    @abstractmethod
-    def plot_performance(self):
-        pass
 
     @abstractmethod
     def epoch(self):
