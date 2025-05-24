@@ -5,27 +5,20 @@ from uuid import uuid4
 
 
 class RLTrainer(ABC):
-    def __init__(self, collection: str, epochs = 100_000):
+    def __init__(self, collection: str):
         self.collection = collection
         self.db = DatabaseManager(collection)
         self.rewards = []
-        self.epochs = epochs
+        self.num_epoch = 0
         self.start_time = time.time()
         self.trainer_id = str(uuid4())
-
 
     @abstractmethod
     def epoch(self):
         """
-        Perform the whole epoch, return the reward
+        Perform the whole epoch, return the obtained reward
         """
         pass
-
-    def finish(self):
-        final_t = time.time()
-        total_time = final_t - self.start_time
-        print(f"whole process took {total_time/3600} hours for {self.epoch} epochs") 
-        return total_time
 
     def upload_trainer_to_trainers_collection(self):
         """
@@ -36,24 +29,34 @@ class RLTrainer(ABC):
         data = {
                 "trainer_id":self.trainer_id,
                 "collection": self.collection,
+                "epochs": self.num_epoch,
                 "trainer_b64": ""# pending to fill it
                 }
-        trainers_db.insert_one(data)
         print(f"trainer {self.trainer_id} uploaded to trainers collection")
+        trainers_db.insert_one(data)
+        return data
 
-    def train(self):
+    def finish(self):
+        final_t = time.time()
+        total_time = final_t - self.start_time
+        print(f"trainer {self.trainer_id} took {total_time/3600} hours for {self.num_epoch} epochs") 
+        return total_time
+
+    def train(self, epochs):
         print(f"started training with trainer: {self.trainer_id}")
-        for i in range(self.epochs):
+        for i in range(epochs):
+            self.num_epoch += 1
             start = time.time()
             reward = self.epoch()
             end = time.time()
             total_time = end - start
             data = {
-                    "trainer_id": self.trainer_id
+                    "trainer_id": self.trainer_id,
                     "epoch": i,
                     "reward": reward,
                     "duration": total_time
                     }
             self.db.insert_one(data)
-        self.finish()
         self.upload_trainer_to_trainers_collection()
+        self.finish()
+        return data
