@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from database.database import DatabaseManager
 import time
 from uuid import uuid4
+import dill 
+import base64
 
 
 class RLTrainer(ABC):
@@ -22,15 +24,20 @@ class RLTrainer(ABC):
 
     def upload_trainer_to_trainers_collection(self):
         """
-        Compress the full class into pickle format and uploads it into a
+        Compress the full class into dill format and uploads it into a
         trainers collection in b64 format
         """
         trainers_db = DatabaseManager("trainers")
+        bytes_obj = dill.dumps(self)
+        b64_obj = base64.b64encode(bytes_obj).decode()
+        print(b64_obj)
+        total_time = time.time() - self.start_time
         data = {
                 "trainer_id":self.trainer_id,
                 "collection": self.collection,
                 "epochs": self.num_epoch,
-                "trainer_b64": ""# pending to fill it
+                "total_time": total_time,
+                "trainer_b64": b64_obj,
                 }
         print(f"trainer {self.trainer_id} uploaded to trainers collection")
         trainers_db.insert_one(data)
@@ -57,6 +64,6 @@ class RLTrainer(ABC):
                     "duration": total_time
                     }
             self.db.insert_one(data)
-        self.upload_trainer_to_trainers_collection()
+        # self.upload_trainer_to_trainers_collection() # It's impossible 
         self.finish()
         return data
