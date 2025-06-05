@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from database.database import DatabaseManager
 import time
+from tqdm import tqdm
 from uuid import uuid4
 import dill 
 import base64
@@ -51,7 +52,7 @@ class RLTrainer(ABC):
 
     def train(self, epochs):
         print(f"started training with trainer: {self.trainer_id}")
-        for i in range(epochs):
+        for i in tqdm(range(epochs)):
             self.num_epoch += 1
             start = time.time()
             reward = self.epoch()
