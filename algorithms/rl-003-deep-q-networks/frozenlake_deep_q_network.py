@@ -159,7 +159,8 @@ class DeepQTrainer(RLTrainer):
         self.agent =  FrozenLakeDeepQAgent(0.8, 0.7, 0.1)
         
     def epoch(self):
-        self.agent.epoch()
+        reward = self.agent.epoch()
+        return reward
 
 
 trainer = DeepQTrainer()
