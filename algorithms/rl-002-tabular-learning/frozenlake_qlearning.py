@@ -67,4 +67,27 @@ class FrozenLakeQTrainer(RLTrainer):
 
 
 trainer = FrozenLakeQTrainer("qlearning_frozenlake")
-trainer.train(100_000)
+trainer.train(1_000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
